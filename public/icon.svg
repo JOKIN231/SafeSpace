@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0e3820"/>
+      <stop offset="1" stop-color="#1b5e20"/>
+    </linearGradient>
+    <linearGradient id="rocket" x1="180" y1="120" x2="340" y2="340" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22c55e"/>
+      <stop offset="1" stop-color="#16a34a"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="256" y1="360" x2="256" y2="440" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#facc15"/>
+      <stop offset="1" stop-color="#ea580c"/>
+    </linearGradient>
+  </defs>
+  <!-- Background Shield -->
+  <rect width="512" height="512" rx="128" fill="url(#bg)"/>
+  <path d="M256 64 C350 64, 400 96, 400 96 C400 240, 350 360, 256 424 C162 360, 112 240, 112 96 C112 96, 162 64, 256 64 Z" fill="#14532d" stroke="#22c55e" stroke-width="12" stroke-linejoin="round"/>
+  
+  <!-- Rocket / Protection Emblem -->
+  <!-- Main Rocket Body -->
+  <path d="M256 128 C288 176, 304 224, 304 288 L208 288 C208 224, 224 176, 256 128 Z" fill="#ffffff"/>
+  <!-- Nose cone -->
+  <path d="M256 128 C272 152, 280 180, 280 200 L232 200 C232 180, 240 152, 256 128 Z" fill="#22c55e"/>
+  <!-- Porthole / Window -->
+  <circle cx="256" cy="240" r="22" fill="#0e3820" stroke="#4ade80" stroke-width="6"/>
+  <!-- Left Wing -->
+  <path d="M208 240 L168 288 C168 312, 192 312, 208 304 Z" fill="#22c55e"/>
+  <!-- Right Wing -->
+  <path d="M304 240 L344 288 C344 312, 320 312, 304 304 Z" fill="#22c55e"/>
+  <!-- Rocket Flame -->
+  <path d="M236 296 C236 340, 256 368, 256 368 C256 368, 276 340, 276 296 Z" fill="url(#flame)"/>
+</svg>

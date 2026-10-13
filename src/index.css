@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --color-forest: #064E32;
+  --color-primary-green: #138A45;
+  --color-support-green: #25A55B;
+  --color-pale-green: #F0F8F1;
+  --color-dark-charcoal: #1F2937;
+}
+
+:root {
+  --forest-green: #064E32;
+  --primary-green: #138A45;
+  --supporting-green: #25A55B;
+  --pale-green: #F0F8F1;
+}
+
+body {
+  color: #1F2937;
+  background-color: #F8FAF8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
