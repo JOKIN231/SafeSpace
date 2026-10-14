@@ -808,7 +808,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onSignOut, onGoHom
               <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
                 <span className="font-bold text-slate-900 block">Supabase Connection</span>
                 <p className="text-slate-600">
-                  Status: <strong>{isSupabaseConfigured ? 'Live Supabase Instance Active' : 'Local Encrypted Mode (Ready for Supabase URL/Key)'}</strong>
+                  Status: <strong>{isSupabaseConfigured ? 'Live Supabase Instance Active' : 'Standalone Development Mode (Supabase URL/Key Not Set)'}</strong>
                 </p>
                 <p className="text-slate-500 text-[11px]">
                   Configured in <code>.env</code> with <code>VITE_SUPABASE_URL</code> and <code>VITE_SUPABASE_ANON_KEY</code>.

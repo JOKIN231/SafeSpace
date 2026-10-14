@@ -665,7 +665,7 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
                       <div className="space-y-1">
                         <p className="font-bold">Confidential Counselor Check-In</p>
                         <p className="leading-relaxed text-[11px] text-emerald-800/90">
-                          Your phone number is stored in an isolated, encrypted table. Only designated AMEU peer counselors assigned to this case can access it to coordinate a safe, non-judgmental check-in.
+                          Your phone number is stored in an isolated, access-restricted database table protected by strict Row Level Security (RLS). Only designated university counselors assigned to this case can access it to coordinate a safe check-in.
                         </p>
                       </div>
                     </div>

@@ -108,31 +108,27 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
           </button>
         </div>
 
-        {/* "You're Not Alone" Uplifting Graphic Card with Student Photography */}
+        {/* "You're Not Alone" Uplifting Graphic Card with Self-Contained Zero-Tracking Visual */}
         <div className="mt-8 pt-6 border-t border-slate-100 rounded-3xl bg-emerald-900/5 p-4 sm:p-5 text-left overflow-hidden relative">
           <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-            <div className="sm:col-span-4 h-32 rounded-2xl overflow-hidden shadow-sm relative">
-              <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
-                alt="Student feeling supported and empowered"
-                className="w-full h-full object-cover object-top"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950/60 to-transparent"></div>
-              <div className="absolute bottom-2 left-2 text-[10px] font-bold text-white flex items-center gap-1">
-                <Heart className="w-3 h-3 text-emerald-300" /> AMEU Care
+            <div className="sm:col-span-4 h-32 rounded-2xl overflow-hidden shadow-xs relative bg-gradient-to-br from-emerald-800 to-emerald-950 flex flex-col items-center justify-center p-4 text-center">
+              <div className="h-12 w-12 rounded-2xl bg-emerald-700/60 border border-emerald-500/40 flex items-center justify-center text-white mb-2 shadow-inner">
+                <Heart className="w-6 h-6 text-emerald-300 fill-emerald-300/40" />
               </div>
+              <span className="text-[11px] font-bold text-emerald-200 tracking-wide">AMEU Care & Wellbeing</span>
+              <span className="text-[9px] text-emerald-400/80">Zero Third-Party Tracking</span>
             </div>
 
             <div className="sm:col-span-8 space-y-1.5">
               <div className="flex items-center gap-1.5">
                 <h3 className="text-base font-extrabold text-slate-900">You're Not Alone.</h3>
-                <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
+                <Sparkles className="w-4 h-4 text-amber-500" />
               </div>
               <p className="text-xs text-slate-600 leading-relaxed">
                 Reaching out takes courage. Whether you chose to remain anonymous or requested a counselor check-in, our campus community stands with you.
               </p>
-              <div className="pt-1 flex items-center gap-2 text-[11px] font-bold text-emerald-700">
-                <Shield className="w-3.5 h-3.5" />
+              <div className="pt-1 flex items-center gap-2 text-[11px] font-bold text-emerald-800">
+                <Shield className="w-3.5 h-3.5 text-emerald-700" />
                 <span>Confidential Safeguarding in Partnership with FLY</span>
               </div>
             </div>

@@ -34,7 +34,7 @@ export const PrivacyPage: React.FC = () => {
               <strong>Report details:</strong> Who is affected, incident categories, online platform used, optional approximate incident date, and the narrative description you voluntarily share.
             </li>
             <li>
-              <strong>Optional contact information:</strong> If you explicitly choose to request peer counselor contact, your phone number and contact preferences are stored in an isolated, encrypted table.
+              <strong>Optional contact information:</strong> If you explicitly choose to request peer counselor contact, your phone number and contact preferences are stored in an isolated, access-restricted database table protected by PostgreSQL Row Level Security (RLS) accessible only to authorized supervising staff.
             </li>
             <li>
               <strong>Technical headers:</strong> Standard web server connection headers required for network routing and security threat defense (we do not collect invasive device fingerprints or tracking cookies).

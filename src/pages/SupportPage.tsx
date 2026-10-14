@@ -11,6 +11,7 @@ import {
   CheckCircle2,
   ExternalLink
 } from 'lucide-react';
+import ameuSupportHeaderImg from '../assets/images/ameu_support_header_1791965500503.jpg';
 
 interface SupportPageProps {
   onNavigate: (tab: string) => void;
@@ -33,9 +34,9 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
       <div className="rounded-3xl bg-slate-900 text-white shadow-2xl relative overflow-hidden">
         <div className="relative h-64 sm:h-72 w-full overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?auto=format&fit=crop&w=1200&q=80"
-            alt="Students talking and supporting each other"
-            className="w-full h-full object-cover filter brightness-85"
+            src={ameuSupportHeaderImg}
+            alt="West African university students engaged in caring, confidential peer support in counseling lounge"
+            className="w-full h-full object-cover filter brightness-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/70 to-emerald-950/20"></div>
 

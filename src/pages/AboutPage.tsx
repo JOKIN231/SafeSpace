@@ -12,6 +12,7 @@ import {
   Award
 } from 'lucide-react';
 import { AMEUUniversityLogo, CareerLaunchpadLogo, MinistryOfJusticeLogo, FLYLogo } from '../components/Logos';
+import ameuCampusImg from '../assets/images/ameu_campus_about_1791965474141.jpg';
 
 interface AboutPageProps {
   onNavigate: (tab: string) => void;
@@ -38,9 +39,9 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       <div className="rounded-3xl bg-slate-900 text-white shadow-2xl relative overflow-hidden">
         <div className="relative h-64 sm:h-80 w-full overflow-hidden">
           <img
-            src="https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=1200&q=80"
-            alt="African university campus courtyard"
-            className="w-full h-full object-cover filter brightness-85"
+            src={ameuCampusImg}
+            alt="African Methodist Episcopal University Camp Johnson Road campus community in Monrovia, Liberia"
+            className="w-full h-full object-cover filter brightness-90"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#064E32] via-[#064E32]/70 to-transparent"></div>
 

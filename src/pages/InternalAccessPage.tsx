@@ -111,34 +111,19 @@ export const InternalAccessPage: React.FC<InternalAccessPageProps> = ({ onSucces
             </button>
           </form>
 
-          {/* Quick Authorized Account Helper for Verification & Testing */}
-          <div className="rounded-xl bg-emerald-50/70 border border-emerald-200/60 p-3.5 space-y-2 text-xs text-emerald-900">
-            <div className="flex items-center gap-2 font-bold text-emerald-950">
-              <KeyRound className="w-4 h-4 text-emerald-700" />
-              <span>Authorized Credential Helper</span>
+          <div className="rounded-xl bg-slate-50 border border-slate-200/80 p-3.5 space-y-1.5 text-xs text-slate-600">
+            <div className="flex items-center gap-1.5 font-bold text-slate-800">
+              <Shield className="w-4 h-4 text-emerald-700" />
+              <span>Restricted University System</span>
             </div>
-            <p className="text-[11px] text-emerald-800/90 leading-relaxed">
-              Use your assigned Supabase user or test with:
+            <p className="text-[11px] text-slate-500 leading-relaxed">
+              Access is strictly restricted to designated AMEU peer counselors and safeguarding administrators with pre-provisioned institutional credentials. All sessions are audited.
             </p>
-            <div className="bg-white/80 p-2 rounded-lg font-mono text-[11px] text-slate-700 space-y-1 border border-emerald-200/40">
-              <div><strong>Email:</strong> counselor@ame.edu.lr</div>
-              <div><strong>Password:</strong> CounselorPass2026!</div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('counselor@ame.edu.lr');
-                setPassword('CounselorPass2026!');
-              }}
-              className="text-[11px] font-bold text-emerald-700 hover:text-emerald-900 underline"
-            >
-              Fill Demo Counselor Credentials
-            </button>
           </div>
 
           <div className="pt-2 text-center text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
-            <Shield className="w-3.5 h-3.5 text-slate-400" />
-            <span>Unauthorized access is strictly monitored and logged.</span>
+            <Lock className="w-3.5 h-3.5 text-slate-400" />
+            <span>Encrypted transmission • Zero public registration</span>
           </div>
         </div>
       </div>

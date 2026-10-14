@@ -12,11 +12,11 @@ import {
   Play
 } from 'lucide-react';
 
-import heroImg1 from '../assets/images/liberian_students_hero_1791895133515.jpg';
-import heroImg2 from '../assets/images/peer_counseling_support_1791895153439.jpg';
-import heroImg3 from '../assets/images/digital_safety_phone_1791895170634.jpg';
-import heroImg4 from '../assets/images/liberian_friends_walk_1791895190189.jpg';
-import heroImg5 from '../assets/images/counselors_welcome_1791895210046.jpg';
+import heroImg1 from '../assets/images/ameu_students_hero_1791965236517.jpg';
+import heroImg2 from '../assets/images/ameu_peer_counseling_1791965255372.jpg';
+import heroImg3 from '../assets/images/ameu_digital_safety_1791965274348.jpg';
+import heroImg4 from '../assets/images/ameu_friends_walk_campus_1791965333645.jpg';
+import heroImg5 from '../assets/images/ameu_counselors_welcome_1791965313941.jpg';
 
 interface SlideItem {
   id: number;
@@ -189,7 +189,7 @@ export const HeroBanner: React.FC = () => {
             <div className="flex items-center gap-2">
               <span className="inline-flex items-center gap-1.5 text-[11px] font-bold bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-emerald-900 shadow-md">
                 <Lock className="w-3 h-3 text-emerald-700" />
-                <span>100% Confidential</span>
+                <span>Confidential & Protected</span>
               </span>
               <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-900/90 text-emerald-200 border border-emerald-600/50 px-2.5 py-1 rounded-full shadow-md backdrop-blur-md">
                 <UserCheck className="w-3 h-3 text-emerald-400" />

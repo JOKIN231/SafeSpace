@@ -83,109 +83,46 @@ class ReportingService implements IReportingService {
     const now = new Date().toISOString();
 
     // 2. Real Supabase Backend Submission via Server-Side Function / RPC
-    if (isSupabaseConfigured && supabase) {
-      try {
-        const { data, error } = await supabase.rpc('submit_student_report', {
-          p_reporting_for: payload.reporting_for,
-          p_incident_types: payload.incident_types,
-          p_incident_types_other: payload.incident_types_other?.trim() || null,
-          p_platform: payload.platform.trim(),
-          p_incident_date: payload.incident_date || null,
-          p_description: payload.description.trim(),
-          p_immediate_danger: payload.immediate_danger,
-          p_contact_requested: Boolean(payload.contact_requested),
-          p_phone_number: payload.phone_number?.trim() || null,
-          p_consent_to_contact: Boolean(payload.consent_to_contact),
-        });
-
-        if (error) {
-          // If RPC is missing or errors, fallback to direct atomic table insertion
-          const referenceCode = generateReferenceCode();
-          const urgency = calculateUrgency(payload.immediate_danger, payload.incident_types);
-          const reportId = crypto.randomUUID ? crypto.randomUUID() : `rep-${Date.now()}`;
-
-          const { data: repData, error: repError } = await supabase
-            .from('reports')
-            .insert({
-              id: reportId,
-              reference_code: referenceCode,
-              reporting_for: payload.reporting_for,
-              incident_types: payload.incident_types,
-              incident_types_other: payload.incident_types_other?.trim() || null,
-              platform: payload.platform,
-              incident_date: payload.incident_date || null,
-              description: payload.description.trim(),
-              immediate_danger: payload.immediate_danger,
-              contact_requested: Boolean(payload.contact_requested),
-              status: 'new',
-              urgency,
-              created_at: now,
-              updated_at: now,
-            })
-            .select('id, reference_code')
-            .single();
-
-          if (repError) {
-            throw new Error(repError.message || 'Database error during report registration.');
-          }
-
-          if (payload.contact_requested && payload.phone_number?.trim() && payload.consent_to_contact) {
-            await supabase.from('report_contacts').insert({
-              report_id: reportId,
-              phone_number: payload.phone_number.trim(),
-              consent_to_contact: true,
-              created_at: now,
-            });
-          }
-
-          return {
-            success: true,
-            referenceCode: repData.reference_code,
-            reportId: repData.id,
-            isMock: false,
-            message: 'Report recorded in Supabase database.',
-            timestamp: now,
-          };
-        }
-
-        // Return verified server result
-        return {
-          success: true,
-          referenceCode: data.reference_code,
-          reportId: data.report_id,
-          isMock: false,
-          message: data.message || 'Report received and securely recorded by server.',
-          timestamp: now,
-        };
-      } catch (err: unknown) {
-        const message = err instanceof Error ? err.message : 'Network communication error';
-        throw new Error(`Submission failed: ${message}`);
-      }
+    if (!isSupabaseConfigured || !supabase) {
+      throw new Error(
+        'The confidential reporting service is currently offline or undergoing backend maintenance. If you or someone else is in immediate danger, please contact Campus Security directly.'
+      );
     }
 
-    // 3. Local Development Mock Mode
-    await new Promise((resolve) => setTimeout(resolve, 600));
-
     try {
-      const { submitReport: fallbackSubmit } = await import('../lib/supabase');
-      const fallbackResult = await fallbackSubmit(payload);
+      const { data, error } = await supabase.rpc('submit_student_report', {
+        p_reporting_for: payload.reporting_for,
+        p_incident_types: payload.incident_types,
+        p_incident_types_other: payload.incident_types_other?.trim() || null,
+        p_platform: payload.platform.trim(),
+        p_incident_date: payload.incident_date || null,
+        p_description: payload.description.trim(),
+        p_immediate_danger: payload.immediate_danger,
+        p_contact_requested: Boolean(payload.contact_requested),
+        p_phone_number: payload.phone_number?.trim() || null,
+        p_consent_to_contact: Boolean(payload.consent_to_contact),
+      });
+
+      if (error) {
+        throw new Error(error.message || 'Database error during report registration.');
+      }
+
+      if (!data || !data.reference_code) {
+        throw new Error('Server did not return a valid confirmation receipt.');
+      }
+
+      // Return verified server result
       return {
         success: true,
-        referenceCode: fallbackResult.referenceCode,
-        reportId: fallbackResult.reportId,
-        isMock: true,
-        message: 'Report recorded via Local Secure Storage (Supabase keys not populated).',
+        referenceCode: data.reference_code,
+        reportId: data.report_id,
+        isMock: false,
+        message: data.message || 'Report received and securely recorded by server.',
         timestamp: now,
       };
-    } catch {
-      const referenceCode = generateReferenceCode();
-      return {
-        success: true,
-        referenceCode,
-        isMock: true,
-        message: 'Report recorded via Local Secure Storage.',
-        timestamp: now,
-      };
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : 'Network communication error';
+      throw new Error(`Submission failed: ${message}`);
     }
   }
 }

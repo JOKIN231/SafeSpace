@@ -20,6 +20,12 @@ import { HeroBanner } from '../components/HeroBanner';
 import { PartnerBar } from '../components/Logos';
 import { PeerCounselorsSection } from '../components/PeerCounselorsSection';
 
+import speakUpCardImg from '../assets/images/ameu_speak_up_card_1791965356557.jpg';
+import understandOptionsCardImg from '../assets/images/ameu_understand_options_card_1791965377971.jpg';
+import findSupportCardImg from '../assets/images/ameu_find_support_card_1791965401335.jpg';
+import missionCollabImg from '../assets/images/ameu_mission_collab_1791965425038.jpg';
+import solidarityCtaImg from '../assets/images/ameu_solidarity_cta_1791965449839.jpg';
+
 interface LandingPageProps {
   onNavigate: (tab: string) => void;
 }
@@ -102,8 +108,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="group rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between overflow-hidden">
             <div className="h-40 w-full overflow-hidden relative">
               <img
-                src="https://images.unsplash.com/photo-1577495508048-b635879837f1?auto=format&fit=crop&w=600&q=80"
-                alt="Student empowered to speak up"
+                src={speakUpCardImg}
+                alt="West African university student empowered to speak up safely"
                 className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -136,8 +142,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="group rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between overflow-hidden">
             <div className="h-40 w-full overflow-hidden relative">
               <img
-                src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&w=600&q=80"
-                alt="Students learning and understanding digital rights"
+                src={understandOptionsCardImg}
+                alt="West African university students learning digital rights and safety guidelines"
                 className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -170,8 +176,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="group rounded-3xl bg-white border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-emerald-500/50 transition-all flex flex-col justify-between overflow-hidden">
             <div className="h-40 w-full overflow-hidden relative">
               <img
-                src="https://images.unsplash.com/photo-1531545514256-b1400bc00f31?auto=format&fit=crop&w=600&q=80"
-                alt="Students offering compassionate peer support"
+                src={findSupportCardImg}
+                alt="Compassionate West African peer counselor listening and offering guidance"
                 className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
@@ -234,8 +240,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
             <div className="lg:col-span-5 relative">
               <div className="rounded-2xl overflow-hidden shadow-xl border border-slate-700/80">
                 <img
-                  src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=80"
-                  alt="African college students working collaboratively"
+                  src={missionCollabImg}
+                  alt="West African university students collaborating on student wellbeing"
                   className="w-full h-56 sm:h-64 object-cover filter brightness-90 hover:scale-105 transition-transform duration-500"
                 />
                 <div className="p-4 bg-slate-800/95 space-y-1">
@@ -343,8 +349,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
 
             <div className="lg:col-span-5 h-72 sm:h-80 lg:h-full relative overflow-hidden">
               <img
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=800&q=80"
-                alt="Supportive university students embracing with smiles"
+                src={solidarityCtaImg}
+                alt="Supportive West African university students smiling in solidarity and community"
                 className="w-full h-full object-cover filter brightness-95"
               />
               <div className="absolute inset-0 bg-gradient-to-t lg:bg-gradient-to-r from-[#064E32] via-[#064E32]/30 to-transparent"></div>

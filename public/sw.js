@@ -47,7 +47,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // 2. Strict Privacy Rule: Never cache or serve from cache any sensitive paths
+  // 2. Never intercept Vite development assets or dynamic modules
+  if (
+    url.pathname.startsWith('/@') ||
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/node_modules/') ||
+    url.searchParams.has('v') ||
+    url.pathname.endsWith('.ts') ||
+    url.pathname.endsWith('.tsx')
+  ) {
+    return;
+  }
+
+  // 3. Strict Privacy Rule: Never cache or serve from cache any sensitive paths
   const isSensitive = SENSITIVE_URL_PATTERNS.some((pattern) => pattern.test(url.pathname));
   if (isSensitive) {
     // Network-only for sensitive data
