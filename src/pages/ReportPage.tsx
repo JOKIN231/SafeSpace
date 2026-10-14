@@ -85,7 +85,11 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
   // Form validation, loading & receipt state
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-  const [submissionResult, setSubmissionResult] = useState<{ referenceCode: string; isMock: boolean } | null>(null);
+  const [submissionResult, setSubmissionResult] = useState<{
+    referenceCode: string;
+    isMock: boolean;
+    contactRequested: boolean;
+  } | null>(null);
 
   // Toggle incident category selection with mutual exclusivity for "I'm not sure"
   const handleToggleCategory = (category: string) => {
@@ -210,6 +214,7 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
         setSubmissionResult({
           referenceCode: result.referenceCode,
           isMock: result.isMock,
+          contactRequested: Boolean(contactRequested),
         });
       } else {
         setError('Report could not be recorded. Please try again.');
@@ -228,6 +233,7 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
       <ConfirmationView
         referenceCode={submissionResult.referenceCode}
         isMock={submissionResult.isMock}
+        contactRequested={submissionResult.contactRequested}
         onHome={onHome}
         onSupport={onSupport}
       />

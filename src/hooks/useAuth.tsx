@@ -20,6 +20,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     async function initAuth() {
+      // 1. Check session storage for persisted session
+      const saved = sessionStorage.getItem(AUTH_STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.id && parsed.active) {
+            setUser(parsed);
+            setLoading(false);
+            return;
+          }
+        } catch {
+          sessionStorage.removeItem(AUTH_STORAGE_KEY);
+        }
+      }
+
+      // 2. Check Supabase session if configured
       if (isSupabaseConfigured && supabase) {
         const { data: { session } } = await supabase.auth.getSession();
         if (session?.user) {
@@ -32,14 +48,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
           if (!error && profile && profile.active) {
             setUser(profile);
+            sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(profile));
           } else {
             // Deactivated or missing profile -> revoke session immediately
             await supabase.auth.signOut();
+            sessionStorage.removeItem(AUTH_STORAGE_KEY);
             setUser(null);
           }
         }
       } else {
-        // When backend is not configured, fail closed: no unauthorized session access
         setUser(null);
       }
       setLoading(false);
@@ -51,13 +68,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signIn = async (email: string, password: string): Promise<{ success: boolean; error?: string }> => {
     // Basic format validation
     if (!email || !password) {
-      return { success: false, error: 'Email and password are required.' };
+      return { success: false, error: 'Username/Email and password are required.' };
+    }
+
+    // Demo Mode Credentials Check: "1234 up and 1234 down"
+    const trimmedInput = email.trim();
+    const isDemoCredential =
+      (trimmedInput === '1234' && password === '1234') ||
+      (trimmedInput.toLowerCase() === 'counselor@ame.edu.lr' && password === '1234') ||
+      (trimmedInput.toLowerCase() === 'admin' && password === '1234');
+
+    if (isDemoCredential) {
+      const demoProfile: CounselorProfile = {
+        id: 'counselor-001',
+        email: 'counselor@ame.edu.lr',
+        display_name: 'Lead Peer Counselor',
+        role: 'administrator',
+        active: true,
+        department: 'AMEU Student Safeguarding & Peer Wellbeing',
+        specialty: 'Cyberbullying, Harassment & Student Support',
+        phone: '+231 77 123 4567',
+        available_today: true,
+        created_at: '2026-09-01T08:00:00Z',
+      };
+      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(demoProfile));
+      setUser(demoProfile);
+      return { success: true };
     }
 
     if (!isSupabaseConfigured || !supabase) {
       return {
         success: false,
-        error: 'Backend authentication service is not configured. Please configure Supabase credentials.',
+        error: 'Invalid credentials. For the active demo, enter 1234 for Username and 1234 for Password.',
       };
     }
 

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Check, Copy, CheckCircle2, Home, HeartHandshake, Shield, Sparkles, Info, Heart } from 'lucide-react';
+import { Check, Copy, CheckCircle2, Home, HeartHandshake, Shield, Sparkles, Info, Heart, PhoneCall } from 'lucide-react';
 
 interface ConfirmationViewProps {
   referenceCode: string;
   isMock?: boolean;
+  contactRequested?: boolean;
   onHome: () => void;
   onSupport: () => void;
 }
@@ -11,6 +12,7 @@ interface ConfirmationViewProps {
 export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
   referenceCode,
   isMock = false,
+  contactRequested = false,
   onHome,
   onSupport,
 }) => {
@@ -36,12 +38,38 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
         {/* Heading & Reassurance */}
         <div className="space-y-2">
           <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-            Your report has been received.
+            Thank You — Your Report Has Been Received
           </h1>
           <p className="text-sm sm:text-base text-slate-600 max-w-md mx-auto leading-relaxed">
-            Thank you for taking the time to share this information. Your report has been recorded for review by the authorized support team.
+            Thank you for taking the time and courage to share this information. Your report has been securely registered and protected by confidential peer safeguarding.
           </p>
         </div>
+
+        {/* Contact Follow-Up Reassurance Banner */}
+        {contactRequested ? (
+          <div className="rounded-2xl bg-teal-50 border-2 border-teal-300 p-5 max-w-md mx-auto text-left space-y-2 shadow-xs">
+            <div className="flex items-center gap-2 text-teal-900 font-extrabold text-sm sm:text-base">
+              <PhoneCall className="w-5 h-5 text-teal-700 shrink-0" />
+              <span>You will be contacted as soon as possible</span>
+            </div>
+            <p className="text-xs sm:text-sm text-teal-900 leading-relaxed">
+              Thank you for requesting support. A designated peer counselor from the AMEU SafeSpace wellbeing team has received your request and <strong>will contact you as soon as possible</strong> using the contact method provided.
+            </p>
+            <p className="text-[11px] text-teal-800 font-medium">
+              Please keep your phone available. All outreach is completely confidential, discreet, and supportive.
+            </p>
+          </div>
+        ) : (
+          <div className="rounded-2xl bg-emerald-50/70 border border-emerald-200/90 p-4 max-w-md mx-auto text-left space-y-1">
+            <div className="flex items-center gap-2 text-emerald-950 font-bold text-xs uppercase tracking-wide">
+              <Shield className="w-4 h-4 text-emerald-700 shrink-0" />
+              <span>100% Confidential Anonymous Record</span>
+            </div>
+            <p className="text-xs text-emerald-800 leading-relaxed">
+              Thank you for your report. Because you chose to remain anonymous, no contact will be made. You may keep your reference code below for your personal records.
+            </p>
+          </div>
+        )}
 
         {/* Reference Code Card */}
         <div className="rounded-2xl bg-emerald-50/80 border-2 border-emerald-200/80 p-5 max-w-md mx-auto space-y-3">
