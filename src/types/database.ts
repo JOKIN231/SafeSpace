@@ -28,6 +28,15 @@ export type ActionType =
   | 'counselor_deleted'
   | 'counselor_updated';
 
+export interface EvidenceFile {
+  id: string;
+  name: string;
+  size: number;
+  type: string;
+  dataUrl: string; // base64 representation for display & persistence
+  uploaded_at?: string;
+}
+
 export interface Report {
   id: string;
   reference_code: string;
@@ -39,6 +48,7 @@ export interface Report {
   description: string;
   immediate_danger: ImmediateDangerOption;
   contact_requested: boolean;
+  evidence_files?: EvidenceFile[];
   status: ReportStatus;
   urgency: UrgencyLevel;
   created_at: string;
@@ -91,6 +101,7 @@ export interface SubmitReportPayload {
   contact_requested: boolean;
   phone_number?: string;
   consent_to_contact?: boolean;
+  evidence_files?: EvidenceFile[];
 }
 
 export interface ReportFilterOptions {

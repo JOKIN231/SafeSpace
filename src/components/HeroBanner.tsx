@@ -149,8 +149,8 @@ export const HeroBanner: React.FC = () => {
     }, 1000);
   };
 
-  const currentSlide = SLIDES[currentIndex];
-  const currentQuote = MENTAL_HEALTH_QUOTES[quoteIndex];
+  const currentSlide = SLIDES[currentIndex] || SLIDES[0];
+  const currentQuote = MENTAL_HEALTH_QUOTES[quoteIndex] || MENTAL_HEALTH_QUOTES[0];
 
   return (
     <div className="relative mx-auto max-w-md lg:max-w-none select-none">

@@ -21,18 +21,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     async function initAuth() {
       // 1. Check session storage for persisted session
-      const saved = sessionStorage.getItem(AUTH_STORAGE_KEY);
-      if (saved) {
-        try {
+      try {
+        const saved = sessionStorage.getItem(AUTH_STORAGE_KEY);
+        if (saved) {
           const parsed = JSON.parse(saved);
           if (parsed && parsed.id && parsed.active) {
             setUser(parsed);
             setLoading(false);
             return;
           }
-        } catch {
-          sessionStorage.removeItem(AUTH_STORAGE_KEY);
         }
+      } catch {
+        // Safe fallback if sessionStorage is blocked
       }
 
       // 2. Check Supabase session if configured
@@ -91,7 +91,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         available_today: true,
         created_at: '2026-09-01T08:00:00Z',
       };
-      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(demoProfile));
+      try {
+        sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(demoProfile));
+      } catch {
+        // Safe fallback
+      }
       setUser(demoProfile);
       return { success: true };
     }
@@ -131,6 +135,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
     }
 
+    try {
+      sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(profile));
+    } catch {
+      // Safe fallback
+    }
     setUser(profile);
     return { success: true };
   };
@@ -139,7 +148,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isSupabaseConfigured && supabase) {
       await supabase.auth.signOut();
     }
-    sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    try {
+      sessionStorage.removeItem(AUTH_STORAGE_KEY);
+    } catch {
+      // Safe fallback
+    }
     setUser(null);
   };
 

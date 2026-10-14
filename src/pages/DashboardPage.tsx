@@ -26,7 +26,9 @@ import {
   Plus,
   Sparkles,
   ToggleLeft,
-  ToggleRight
+  ToggleRight,
+  Camera,
+  Maximize2
 } from 'lucide-react';
 import {
   Report,
@@ -82,6 +84,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onSignOut, onGoHom
 
   // Export Modal
   const [showExportModal, setShowExportModal] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
 
   // Navigation tab inside dashboard: 'dashboard' | 'reports' | 'counselors' | 'settings'
   const [activeDashTab, setActiveDashTab] = useState<'dashboard' | 'reports' | 'counselors' | 'settings'>('dashboard');
@@ -943,7 +946,13 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onSignOut, onGoHom
                           onClick={() => handleOpenReport(report)}
                         >
                           <td className="py-3.5 px-4 font-mono font-bold text-slate-900 whitespace-nowrap">
-                            {report.reference_code}
+                            <div>{report.reference_code}</div>
+                            {report.evidence_files && report.evidence_files.length > 0 && (
+                              <span className="inline-flex items-center gap-1 text-[10px] text-emerald-800 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-md font-sans font-semibold mt-1">
+                                <Camera className="w-3 h-3 text-emerald-600" />
+                                {report.evidence_files.length} {report.evidence_files.length === 1 ? 'screenshot' : 'screenshots'}
+                              </span>
+                            )}
                           </td>
                           <td className="py-3.5 px-4 text-slate-700 max-w-[200px] truncate">
                             {report.incident_types.join(', ')}
@@ -1075,6 +1084,57 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onSignOut, onGoHom
                 <p className="text-slate-800 leading-relaxed whitespace-pre-wrap pt-1 font-sans">
                   {selectedReport.description}
                 </p>
+              </div>
+
+              {/* Attached Screenshots & Evidence */}
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 col-span-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-slate-800 font-bold flex items-center gap-1.5 text-xs">
+                    <Camera className="w-4 h-4 text-emerald-700" />
+                    <span>Attached Screenshots & Evidence</span>
+                  </span>
+                  <span className="text-[11px] text-slate-500 font-semibold">
+                    {selectedReport.evidence_files && selectedReport.evidence_files.length > 0
+                      ? `${selectedReport.evidence_files.length} attached`
+                      : 'None provided'}
+                  </span>
+                </div>
+
+                {selectedReport.evidence_files && selectedReport.evidence_files.length > 0 ? (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1">
+                    {selectedReport.evidence_files.map((file) => (
+                      <div
+                        key={file.id}
+                        className="group relative rounded-xl border border-slate-200 bg-white overflow-hidden shadow-xs cursor-pointer hover:border-emerald-500 transition-all"
+                        onClick={() => setPreviewImage(file.dataUrl)}
+                      >
+                        <div className="h-28 w-full bg-slate-100 overflow-hidden flex items-center justify-center relative">
+                          <img
+                            src={file.dataUrl}
+                            alt={file.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1 text-white text-xs font-semibold">
+                            <Maximize2 className="w-4 h-4" />
+                            <span>Enlarge</span>
+                          </div>
+                        </div>
+                        <div className="p-2 bg-white">
+                          <p className="text-[11px] font-bold text-slate-800 truncate" title={file.name}>
+                            {file.name}
+                          </p>
+                          <p className="text-[10px] text-slate-400">
+                            {(file.size / 1024).toFixed(0)} KB • Evidence
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-xs text-slate-500 italic pt-1">
+                    No screenshot files or media attachments were submitted with this incident report.
+                  </p>
+                )}
               </div>
 
               {/* Immediate Danger Check */}
@@ -1418,6 +1478,39 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onSignOut, onGoHom
               >
                 Confirm Delete
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FULLSCREEN SCREENSHOT LIGHTBOX MODAL */}
+      {previewImage && (
+        <div
+          className="fixed inset-0 z-60 bg-black/85 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in"
+          onClick={() => setPreviewImage(null)}
+        >
+          <div
+            className="relative max-w-4xl max-h-[90vh] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl p-2 flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="w-full flex items-center justify-between p-3 border-b border-slate-800 text-white">
+              <span className="text-xs font-bold flex items-center gap-2 text-emerald-400">
+                <Camera className="w-4 h-4" />
+                <span>Evidence Screenshot Preview</span>
+              </span>
+              <button
+                onClick={() => setPreviewImage(null)}
+                className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-4 flex items-center justify-center max-h-[80vh] overflow-auto">
+              <img
+                src={previewImage}
+                alt="Enlarged screenshot"
+                className="max-h-[75vh] w-auto max-w-full rounded-xl object-contain shadow-md"
+              />
             </div>
           </div>
         </div>
