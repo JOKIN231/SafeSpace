@@ -71,39 +71,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: false, error: 'Username/Email and password are required.' };
     }
 
-    // Demo Mode Credentials Check: "1234 up and 1234 down"
-    const trimmedInput = email.trim();
-    const isDemoCredential =
-      (trimmedInput === '1234' && password === '1234') ||
-      (trimmedInput.toLowerCase() === 'counselor@ame.edu.lr' && password === '1234') ||
-      (trimmedInput.toLowerCase() === 'admin' && password === '1234');
-
-    if (isDemoCredential) {
-      const demoProfile: CounselorProfile = {
-        id: 'counselor-001',
-        email: 'counselor@ame.edu.lr',
-        display_name: 'Lead Peer Counselor',
-        role: 'administrator',
-        active: true,
-        department: 'AMEU Student Safeguarding & Peer Wellbeing',
-        specialty: 'Cyberbullying, Harassment & Student Support',
-        phone: '+231 77 123 4567',
-        available_today: true,
-        created_at: '2026-09-01T08:00:00Z',
-      };
-      try {
-        sessionStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(demoProfile));
-      } catch {
-        // Safe fallback
-      }
-      setUser(demoProfile);
-      return { success: true };
+    // Standard institutional email & password validation
+    const trimmedEmail = email.trim();
+    if (!trimmedEmail.includes('@') || !password) {
+      return { success: false, error: 'Please enter a valid authorized university email and password.' };
     }
 
     if (!isSupabaseConfigured || !supabase) {
       return {
         success: false,
-        error: 'Invalid credentials. For the active demo, enter 1234 for Username and 1234 for Password.',
+        error: 'The authorized counselor database is currently unconfigured or unreachable. Please ensure database environment variables are set or contact the administrator.',
       };
     }
 

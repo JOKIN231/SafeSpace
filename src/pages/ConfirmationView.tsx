@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Check, Copy, CheckCircle2, Home, HeartHandshake, Shield, Sparkles, Info, Heart, PhoneCall } from 'lucide-react';
+import { Check, Copy, CheckCircle2, Home, HeartHandshake, Shield, Sparkles, Heart, PhoneCall } from 'lucide-react';
 
 interface ConfirmationViewProps {
   referenceCode: string;
@@ -11,7 +11,6 @@ interface ConfirmationViewProps {
 
 export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
   referenceCode,
-  isMock = false,
   contactRequested = false,
   onHome,
   onSupport,
@@ -77,11 +76,6 @@ export const ConfirmationView: React.FC<ConfirmationViewProps> = ({
             <span className="text-xs uppercase tracking-wider font-bold text-emerald-800">
               Your Report Reference
             </span>
-            {isMock && (
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-emerald-200/80 text-emerald-900 px-2 py-0.5 rounded-md">
-                <Info className="w-3 h-3" /> Dev Preview
-              </span>
-            )}
           </div>
 
           <div className="flex items-center justify-center gap-3">

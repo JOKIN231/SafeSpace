@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from './hooks/useAuth';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 import { OfflineBanner } from './components/OfflineBanner';
+import { PWAInstallModal } from './components/PWAInstallModal';
 import { LandingPage } from './pages/LandingPage';
 import { ReportPage } from './pages/ReportPage';
 import { SupportPage } from './pages/SupportPage';
@@ -78,6 +79,7 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col font-sans text-slate-900">
       <OfflineBanner />
+      <PWAInstallModal currentTab={currentTab} />
       <Navbar currentTab={currentTab} onNavigate={navigateTo} />
 
       <main className="flex-1 overflow-hidden">

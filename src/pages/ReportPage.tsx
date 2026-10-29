@@ -33,7 +33,6 @@ import {
   EvidenceFile
 } from '../types/database';
 import { reportingService } from '../services/reportingService';
-import { generateReferenceCode } from '../lib/utils';
 import { ConfirmationView } from './ConfirmationView';
 import { useOnlineStatus } from '../hooks/useOnlineStatus';
 
@@ -144,7 +143,6 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [submissionResult, setSubmissionResult] = useState<{
     referenceCode: string;
-    isMock: boolean;
     contactRequested: boolean;
   } | null>(null);
 
@@ -266,27 +264,15 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
       if (result.success) {
         setSubmissionResult({
           referenceCode: result.referenceCode,
-          isMock: result.isMock,
           contactRequested: Boolean(contactRequested),
         });
       } else {
-        // Safe resilient demo fallback
-        const fallbackRef = generateReferenceCode();
-        setSubmissionResult({
-          referenceCode: fallbackRef,
-          isMock: true,
-          contactRequested: Boolean(contactRequested),
-        });
+        setError(result.message || 'Submission could not be completed. Your answers have been preserved—please try again.');
       }
     } catch (err: unknown) {
-      console.warn('Graceful demo fallback on submission error:', err);
-      // Guarantee that demonstration submissions always succeed smoothly
-      const fallbackRef = generateReferenceCode();
-      setSubmissionResult({
-        referenceCode: fallbackRef,
-        isMock: true,
-        contactRequested: Boolean(contactRequested),
-      });
+      console.error('Submission error:', err);
+      const errMsg = err instanceof Error ? err.message : 'The confidential reporting service encountered an issue. Your answers have been preserved—please try again.';
+      setError(errMsg);
     } finally {
       setIsSubmitting(false);
     }
@@ -297,7 +283,6 @@ export const ReportPage: React.FC<ReportPageProps> = ({ onHome, onSupport }) => 
     return (
       <ConfirmationView
         referenceCode={submissionResult.referenceCode}
-        isMock={submissionResult.isMock}
         contactRequested={submissionResult.contactRequested}
         onHome={onHome}
         onSupport={onSupport}

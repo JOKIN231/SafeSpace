@@ -7,15 +7,27 @@ interface BeforeInstallPromptEvent extends Event {
 
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
+  const [isInstalled, setIsInstalled] = useState<boolean>(() => {
+    if (typeof window === 'undefined') return false;
+    const isStandalone =
+      (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+      (window.navigator as unknown as { standalone?: boolean }).standalone === true ||
+      localStorage.getItem('ameu_pwa_installed') === 'true';
+    return isStandalone;
+  });
   const [isIOS, setIsIOS] = useState(false);
 
   useEffect(() => {
     // Detect standalone mode (already installed)
-    const isStandalone =
-      window.matchMedia('(display-mode: standalone)').matches ||
-      (window.navigator as unknown as { standalone?: boolean }).standalone === true;
-    setIsInstalled(isStandalone);
+    const checkInstalled = () => {
+      const isStandalone =
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        (window.navigator as unknown as { standalone?: boolean }).standalone === true ||
+        localStorage.getItem('ameu_pwa_installed') === 'true';
+      setIsInstalled(isStandalone);
+    };
+
+    checkInstalled();
 
     // Detect iOS devices
     const userAgent = window.navigator.userAgent.toLowerCase();
@@ -29,6 +41,7 @@ export function usePWAInstall() {
 
     const handleAppInstalled = () => {
       setIsInstalled(true);
+      localStorage.setItem('ameu_pwa_installed', 'true');
       setDeferredPrompt(null);
     };
 
@@ -41,14 +54,23 @@ export function usePWAInstall() {
     };
   }, []);
 
+  const markAsInstalled = () => {
+    setIsInstalled(true);
+    localStorage.setItem('ameu_pwa_installed', 'true');
+    setDeferredPrompt(null);
+  };
+
   const install = async () => {
     if (!deferredPrompt) return false;
-    await deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setIsInstalled(true);
-      setDeferredPrompt(null);
-      return true;
+    try {
+      await deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      if (outcome === 'accepted') {
+        markAsInstalled();
+        return true;
+      }
+    } catch {
+      // Fallback
     }
     return false;
   };
@@ -58,5 +80,6 @@ export function usePWAInstall() {
     isInstalled,
     isIOS,
     install,
+    markAsInstalled,
   };
 }

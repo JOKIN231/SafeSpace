@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Lock, Shield, AlertCircle, ArrowLeft, KeyRound } from 'lucide-react';
+import { Lock, Shield, AlertCircle, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../hooks/useAuth';
 import { SafeSpaceBrandLogo } from '../components/Logos';
 
@@ -72,42 +72,17 @@ export const InternalAccessPage: React.FC<InternalAccessPageProps> = ({ onSucces
             </div>
           )}
 
-          {/* Demo Credentials Indicator Card */}
-          <div className="rounded-2xl bg-emerald-50 border border-emerald-200 p-3.5 text-xs text-emerald-950 flex items-center justify-between gap-3 shadow-xs">
-            <div className="flex items-center gap-2.5">
-              <div className="h-8 w-8 rounded-xl bg-emerald-600/10 border border-emerald-600/20 flex items-center justify-center shrink-0">
-                <KeyRound className="w-4 h-4 text-emerald-700" />
-              </div>
-              <div className="space-y-0.5">
-                <p className="font-extrabold text-emerald-900">Active Demo Credentials</p>
-                <p className="text-[11px] text-emerald-800">
-                  Username: <strong className="font-mono text-emerald-950">1234</strong> (up) &bull; Password: <strong className="font-mono text-emerald-950">1234</strong> (down)
-                </p>
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                setEmail('1234');
-                setPassword('1234');
-              }}
-              className="text-xs font-bold text-emerald-800 hover:text-emerald-950 bg-white border border-emerald-300 px-2.5 py-1.5 rounded-lg shadow-2xs hover:bg-emerald-100/50 transition-all cursor-pointer whitespace-nowrap"
-            >
-              Fill 1234
-            </button>
-          </div>
-
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1">
               <label className="block text-xs font-bold uppercase tracking-wider text-slate-700">
-                Username or Authorized Email
+                Authorized Institutional Email
               </label>
               <input
-                type="text"
+                type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="1234 or counselor@ame.edu.lr"
+                placeholder="counselor@ame.edu.lr"
                 className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-hidden"
               />
             </div>
@@ -121,7 +96,7 @@ export const InternalAccessPage: React.FC<InternalAccessPageProps> = ({ onSucces
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="1234"
+                placeholder="••••••••••••"
                 className="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm text-slate-900 focus:border-emerald-600 focus:ring-1 focus:ring-emerald-600 focus:outline-hidden"
               />
             </div>

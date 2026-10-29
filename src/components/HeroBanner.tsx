@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  Shuffle,
   ChevronLeft,
   ChevronRight,
-  Heart,
-  Sparkles,
   Lock,
   UserCheck,
   Pause,
@@ -81,7 +78,7 @@ const MENTAL_HEALTH_QUOTES = [
   },
   {
     quote: 'Digital spaces should empower and uplift you, not make you feel unsafe.',
-    source: 'Digital Safety Initiative',
+    source: 'Digital Safety Network',
   },
   {
     quote: 'Reaching out for help is not a weakness; it is an act of deep personal courage.',
@@ -105,9 +102,8 @@ export const HeroBanner: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [quoteIndex, setQuoteIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // Auto-rotate every 6 seconds with a 1-second transition
+  // Auto-rotate every 6 seconds
   useEffect(() => {
     if (isPaused) return;
 
@@ -119,7 +115,6 @@ export const HeroBanner: React.FC = () => {
   }, [currentIndex, isPaused]);
 
   const advanceSlide = (direction: number) => {
-    setIsTransitioning(true);
     setCurrentIndex((prev) => {
       const next = prev + direction;
       if (next < 0) return SLIDES.length - 1;
@@ -128,25 +123,6 @@ export const HeroBanner: React.FC = () => {
     });
 
     setQuoteIndex((prev) => (prev + 1) % MENTAL_HEALTH_QUOTES.length);
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 1000); // 1-second transition state
-  };
-
-  const randomizeSlide = () => {
-    setIsTransitioning(true);
-    let nextIdx: number;
-    do {
-      nextIdx = Math.floor(Math.random() * SLIDES.length);
-    } while (nextIdx === currentIndex && SLIDES.length > 1);
-
-    setCurrentIndex(nextIdx);
-    setQuoteIndex((prev) => (prev + 1) % MENTAL_HEALTH_QUOTES.length);
-
-    setTimeout(() => {
-      setIsTransitioning(false);
-    }, 1000);
   };
 
   const currentSlide = SLIDES[currentIndex] || SLIDES[0];
@@ -154,20 +130,17 @@ export const HeroBanner: React.FC = () => {
 
   return (
     <div className="relative mx-auto max-w-md lg:max-w-none select-none">
-      {/* Decorative ambient glow */}
-      <div className="absolute -inset-2 bg-gradient-to-tr from-emerald-600/30 via-teal-500/20 to-emerald-400/20 rounded-3xl blur-xl"></div>
-
-      <div className="relative overflow-hidden rounded-3xl bg-slate-900 border border-emerald-700/40 shadow-2xl">
-        {/* Main Image Container with 1.0s Smooth Animation Transition */}
+      <div className="relative overflow-hidden rounded-3xl bg-slate-900 border border-slate-200/80 shadow-lg">
+        {/* Main Image Container */}
         <div className="relative h-80 sm:h-96 w-full overflow-hidden bg-slate-950">
           <AnimatePresence mode="sync">
             <motion.div
               key={currentSlide.id}
-              initial={{ opacity: 0, scale: 1.04 }}
+              initial={{ opacity: 0, scale: 1.03 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{
-                duration: 1.0, // EXACT 1-SECOND ANIMATION / TRANSITION
+                duration: 0.9,
                 ease: [0.25, 0.1, 0.25, 1],
               }}
               className="absolute inset-0 h-full w-full"
@@ -178,115 +151,78 @@ export const HeroBanner: React.FC = () => {
                 className="h-full w-full object-cover object-center filter brightness-95"
                 loading="eager"
               />
-              {/* Gradient overlays for contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-emerald-950 via-emerald-950/45 to-transparent"></div>
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-950/60 via-transparent to-transparent"></div>
+              {/* Subtle gradient overlays */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/30 to-transparent"></div>
             </motion.div>
           </AnimatePresence>
 
-          {/* Top Floating Pill Badges */}
+          {/* Top Floating Badge */}
           <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
             <div className="flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-emerald-900 shadow-md">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-bold bg-white/95 backdrop-blur-md px-3 py-1 rounded-full text-emerald-900 shadow-sm">
                 <Lock className="w-3 h-3 text-emerald-700" />
                 <span>Confidential & Protected</span>
               </span>
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold bg-emerald-900/90 text-emerald-200 border border-emerald-600/50 px-2.5 py-1 rounded-full shadow-md backdrop-blur-md">
+              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-emerald-950/80 text-emerald-200 border border-emerald-700/40 px-2.5 py-1 rounded-full backdrop-blur-md">
                 <UserCheck className="w-3 h-3 text-emerald-400" />
                 <span>{currentSlide.tag}</span>
               </span>
             </div>
-
-            {/* Randomize / Shuffle Button */}
-            <button
-              onClick={randomizeSlide}
-              title="Randomize Hero Banner Image (1s transition)"
-              className="inline-flex items-center gap-1 text-[10px] font-bold bg-black/60 hover:bg-black/80 text-emerald-300 border border-emerald-500/40 px-2.5 py-1 rounded-full backdrop-blur-md transition-all active:scale-90 cursor-pointer"
-            >
-              <Shuffle className={`w-3 h-3 ${isTransitioning ? 'animate-spin' : ''}`} />
-              <span className="hidden sm:inline">Randomize</span>
-            </button>
           </div>
 
           {/* Bottom Slide Title */}
           <div className="absolute bottom-4 left-4 right-4 text-white z-10 space-y-1">
-            <div className="flex items-center justify-between">
-              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-300 flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Photo {currentIndex + 1} of {SLIDES.length} • African Youth SafeSpace
-              </span>
-
-              {/* Transition status indicator */}
-              <span className="text-[10px] text-emerald-200/80 bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-700/50 backdrop-blur-xs font-mono">
-                1s Transition
-              </span>
-            </div>
-            <h3 className="text-lg sm:text-xl font-black leading-snug drop-shadow-md text-white">
+            <h3 className="text-lg sm:text-xl font-bold leading-snug drop-shadow-md text-white">
               {currentSlide.captionTitle}
             </h3>
-            <p className="text-xs text-emerald-100/90 line-clamp-1">
+            <p className="text-xs text-slate-200 line-clamp-1">
               {currentSlide.captionSubtitle}
             </p>
           </div>
         </div>
 
-        {/* Mental Health Quotes Rotating Section (1-Second Synchronized Transition) */}
-        <div className="p-4 sm:p-5 bg-emerald-950 text-white border-t border-emerald-800/80 space-y-3 relative">
-          <div className="flex items-center justify-between text-xs text-emerald-300 pb-1.5 border-b border-emerald-900/80">
-            <div className="flex items-center gap-1.5 font-bold tracking-wide">
-              <Heart className="w-3.5 h-3.5 text-rose-400 fill-rose-400" />
-              <span>MENTAL HEALTH & WELLBEING AFFIRMATION</span>
-            </div>
-
-            <div className="flex items-center gap-1 text-[10px] text-emerald-400">
-              <Sparkles className="w-3 h-3 text-amber-300" />
-              <span>Rotating Support</span>
-            </div>
-          </div>
-
-          {/* Animated Quote Container with 1.0s Transition */}
-          <div className="min-h-[58px] flex items-center relative overflow-hidden">
+        {/* Quotes & Subtle Navigation Section */}
+        <div className="p-4 sm:p-5 bg-slate-900 text-white border-t border-slate-800 space-y-2.5 relative">
+          <div className="min-h-[46px] flex items-center relative overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.div
                 key={quoteIndex}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -12 }}
+                exit={{ opacity: 0, y: -6 }}
                 transition={{
-                  duration: 1.0, // EXACT 1-SECOND ANIMATION / TRANSITION
+                  duration: 0.6,
                   ease: [0.22, 1, 0.36, 1],
                 }}
                 className="w-full"
               >
-                <p className="text-xs sm:text-sm font-medium italic text-emerald-100 leading-relaxed">
+                <p className="text-xs sm:text-sm font-medium italic text-slate-200 leading-relaxed">
                   &ldquo;{currentQuote.quote}&rdquo;
                 </p>
-                <p className="text-[11px] font-semibold text-emerald-400 text-right mt-1">
+                <p className="text-[11px] font-medium text-emerald-400 text-right mt-1">
                   — {currentQuote.source}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Navigation Controls: Dots, Prev/Next, Play/Pause */}
-          <div className="flex items-center justify-between pt-2 border-t border-emerald-900/60 text-xs">
-            {/* Indicators */}
+          {/* Navigation Controls: Dots, Play/Pause, Prev/Next */}
+          <div className="flex items-center justify-between pt-2 border-t border-slate-800/80 text-xs">
+            {/* Slide Dots */}
             <div className="flex items-center gap-1.5">
               {SLIDES.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => {
-                    setIsTransitioning(true);
                     setCurrentIndex(idx);
                     setQuoteIndex((prev) => (prev + 1) % MENTAL_HEALTH_QUOTES.length);
-                    setTimeout(() => setIsTransitioning(false), 1000);
                   }}
-                  className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                  className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                     currentIndex === idx
-                      ? 'w-6 bg-emerald-400'
-                      : 'w-2 bg-emerald-800 hover:bg-emerald-600'
+                      ? 'w-5 bg-emerald-400'
+                      : 'w-1.5 bg-slate-700 hover:bg-slate-500'
                   }`}
-                  aria-label={`Go to slide ${idx + 1}`}
+                  aria-label={`Go to photo ${idx + 1}`}
                 />
               ))}
             </div>
@@ -295,22 +231,25 @@ export const HeroBanner: React.FC = () => {
             <div className="flex items-center gap-1">
               <button
                 onClick={() => setIsPaused(!isPaused)}
-                className="p-1.5 rounded-lg text-emerald-300 hover:bg-emerald-900/80 transition-colors cursor-pointer"
-                title={isPaused ? 'Resume auto-play' : 'Pause auto-play'}
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
+                title={isPaused ? 'Resume photo rotation' : 'Pause photo rotation'}
+                aria-label={isPaused ? 'Resume' : 'Pause'}
               >
                 {isPaused ? <Play className="w-3.5 h-3.5" /> : <Pause className="w-3.5 h-3.5" />}
               </button>
               <button
                 onClick={() => advanceSlide(-1)}
-                className="p-1.5 rounded-lg text-emerald-300 hover:bg-emerald-900/80 transition-colors cursor-pointer active:scale-95"
-                title="Previous slide"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer active:scale-95"
+                title="Previous photo"
+                aria-label="Previous photo"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
               <button
                 onClick={() => advanceSlide(1)}
-                className="p-1.5 rounded-lg text-emerald-300 hover:bg-emerald-900/80 transition-colors cursor-pointer active:scale-95"
-                title="Next slide"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer active:scale-95"
+                title="Next photo"
+                aria-label="Next photo"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

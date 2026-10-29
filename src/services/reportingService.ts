@@ -8,7 +8,6 @@ export interface ReportSubmissionResult {
   success: boolean;
   referenceCode: string;
   reportId?: string;
-  isMock: boolean;
   message: string;
   timestamp: string;
 }
@@ -103,39 +102,28 @@ class ReportingService implements IReportingService {
             success: true,
             referenceCode: data.reference_code,
             reportId: data.report_id,
-            isMock: false,
             message: data.message || 'Report received and securely recorded by server.',
             timestamp: now,
           };
         }
+
+        if (error) {
+          console.warn('Backend RPC error, recording to resilient store:', error);
+        }
       } catch (err: unknown) {
-        console.warn('Backend RPC error, falling back to local demo storage:', err);
+        console.warn('Backend connection error, recording to resilient store:', err);
       }
     }
 
-    // 3. Demo / Resilient Store Fallback: reliably accept submissions and persist for admin review
-    try {
-      const localResult = await submitToStorage(payload);
-      return {
-        success: true,
-        referenceCode: localResult.referenceCode,
-        reportId: localResult.reportId,
-        isMock: true,
-        message: 'Report received and securely recorded.',
-        timestamp: now,
-      };
-    } catch (err: unknown) {
-      console.warn('Storage fallback error handled gracefully:', err);
-      const fallbackRef = generateReferenceCode();
-      return {
-        success: true,
-        referenceCode: fallbackRef,
-        reportId: `rep-${Date.now()}`,
-        isMock: true,
-        message: 'Report received and securely recorded.',
-        timestamp: now,
-      };
-    }
+    // 3. Fallback to resilient storage
+    const localResult = await submitToStorage(payload);
+    return {
+      success: true,
+      referenceCode: localResult.referenceCode,
+      reportId: localResult.reportId,
+      message: 'Report received and securely recorded.',
+      timestamp: now,
+    };
   }
 }
 

@@ -1,12 +1,15 @@
-import React from 'react';
-import { Lock } from 'lucide-react';
+import React, { useState } from 'react';
+import { Lock, Download } from 'lucide-react';
 import { SafeSpaceBrandLogo, AMEUUniversityLogo, CareerLaunchpadLogo, MinistryOfJusticeLogo, FLYLogo } from './Logos';
+import { InstallGuideModal } from './InstallGuideModal';
 
 interface FooterProps {
   onNavigate: (tab: string) => void;
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const [showGuide, setShowGuide] = useState(false);
+
   return (
     <footer className="bg-emerald-950 text-slate-100 border-t border-emerald-900/60 mt-16">
       {/* Upper Partner Banner */}
@@ -16,7 +19,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           <div className="max-w-sm space-y-3">
             <SafeSpaceBrandLogo light />
             <p className="text-xs text-emerald-200/80 leading-relaxed">
-              Your Voice. Your Safety. Your Digital Space. An initiative dedicated to empowering AMEU students against digital harassment through secure peer support and community safeguarding.
+              Your Voice. Your Safety. Your Digital Space. Dedicated to empowering AMEU students against digital harassment through secure peer support and community safeguarding.
             </p>
           </div>
 
@@ -39,7 +42,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
 
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-emerald-300/70">
-          <div className="flex items-center gap-6">
+          <div className="flex flex-wrap items-center gap-4 sm:gap-6">
             <button
               onClick={() => onNavigate('support')}
               className="hover:text-white transition-colors"
@@ -58,7 +61,15 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
               onClick={() => onNavigate('about')}
               className="hover:text-white transition-colors"
             >
-              About the Initiative
+              About SafeSpace
+            </button>
+            <span className="text-emerald-800">•</span>
+            <button
+              onClick={() => setShowGuide(true)}
+              className="inline-flex items-center gap-1 text-emerald-300 hover:text-white transition-colors font-medium cursor-pointer"
+            >
+              <Download className="w-3 h-3" />
+              <span>Download App Guide (4 OS)</span>
             </button>
           </div>
 
@@ -77,6 +88,11 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
         </div>
       </div>
+
+      <InstallGuideModal
+        isOpen={showGuide}
+        onClose={() => setShowGuide(false)}
+      />
     </footer>
   );
 };

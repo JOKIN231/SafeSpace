@@ -11,7 +11,6 @@ import {
   ShieldCheck,
   FileCheck2,
   Clock,
-  Sparkles,
   PhoneCall,
   UserCheck
 } from 'lucide-react';
@@ -39,13 +38,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left Column: Headlines & Actions */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-100/90 text-emerald-800 text-xs font-semibold tracking-wide shadow-xs">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600 animate-pulse" />
-                <span>AMEU Cyberbullying Awareness Initiative</span>
-              </div>
-
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
-                Your Digital Safety <span className="text-emerald-700 underline decoration-emerald-400 decoration-wavy decoration-2">Matters.</span>
+                Your Digital Safety <span className="text-emerald-700">Matters.</span>
               </h1>
 
               <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-xl">
@@ -246,7 +240,7 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                 />
                 <div className="p-4 bg-slate-800/95 space-y-1">
                   <div className="flex items-center justify-between text-xs font-bold text-emerald-400">
-                    <span>Collaborative Wellbeing Initiative</span>
+                    <span>Collaborative Student Wellbeing</span>
                     <span>AMEU & FLY</span>
                   </div>
                   <p className="text-[11px] text-slate-300 leading-snug">

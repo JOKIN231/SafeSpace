@@ -25,13 +25,13 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
       <div className="space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F0F8F1] text-[#064E32] text-xs font-bold ring-1 ring-[#25A55B]/30">
           <Sparkles className="w-3.5 h-3.5 text-[#138A45]" />
-          <span>AMEU Anti-Cyberbullying Awareness Initiative</span>
+          <span>AMEU Digital Safety &amp; Peer Support</span>
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 tracking-tight">
           About AMEU SafeSpace
         </h1>
         <p className="text-base sm:text-lg text-slate-600 leading-relaxed max-w-3xl">
-          AMEU SafeSpace is a digital cyberbullying reporting, awareness, and peer-support initiative intended to promote respectful online behavior, provide a pathway for reporting incidents, and help students find appropriate support.
+          AMEU SafeSpace is a confidential reporting and peer-support platform intended to promote respectful online behavior, provide a safe pathway for reporting incidents, and help students find appropriate support.
         </p>
       </div>
 
