@@ -268,6 +268,7 @@ export async function submitReport(payload: SubmitReportPayload): Promise<{ refe
           description: payload.description,
           immediate_danger: payload.immediate_danger,
           contact_requested: payload.contact_requested,
+          evidence_files: payload.evidence_files || [],
           status: 'new',
           urgency,
           created_at: now,
@@ -458,9 +459,10 @@ export async function recordActivity(payload: Omit<CaseActivity, 'id' | 'created
   const id = crypto.randomUUID ? crypto.randomUUID() : `act-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
   if (isSupabaseConfigured && supabase) {
+    const isSystemAudit = payload.report_id === 'SYSTEM_AUDIT' || payload.report_id.startsWith('counselor-');
     const { error } = await supabase.from('case_activity').insert({
       id,
-      report_id: payload.report_id,
+      report_id: isSystemAudit ? null : payload.report_id,
       actor_user_id: payload.actor_user_id,
       actor_name: payload.actor_name,
       action_type: payload.action_type,

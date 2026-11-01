@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ShieldAlert,
   HeartHandshake,
@@ -12,12 +12,16 @@ import {
   FileCheck2,
   Clock,
   PhoneCall,
-  UserCheck
+  UserCheck,
+  Download,
+  Smartphone,
+  Sparkles
 } from 'lucide-react';
 
 import { HeroBanner } from '../components/HeroBanner';
 import { PartnerBar } from '../components/Logos';
 import { PeerCounselorsSection } from '../components/PeerCounselorsSection';
+import { InstallGuideModal } from '../components/InstallGuideModal';
 
 import speakUpCardImg from '../assets/images/ameu_speak_up_card_1791965356557.jpg';
 import understandOptionsCardImg from '../assets/images/ameu_understand_options_card_1791965377971.jpg';
@@ -30,14 +34,37 @@ interface LandingPageProps {
 }
 
 export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
+  const [showInstallGuide, setShowInstallGuide] = useState(false);
+
   return (
     <div className="space-y-16 sm:space-y-24 pb-12">
       {/* Hero Section */}
-      <section className="relative overflow-hidden pt-4 sm:pt-10">
+      <section className="relative overflow-hidden pt-4 sm:pt-8">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
             {/* Left Column: Headlines & Actions */}
             <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+              {/* Catchy Top Download App Option */}
+              <div>
+                <button
+                  onClick={() => setShowInstallGuide(true)}
+                  className="group inline-flex items-center gap-2 p-1.5 pr-4 rounded-2xl bg-gradient-to-r from-emerald-50 via-teal-50/80 to-emerald-100/70 border-2 border-emerald-500/40 hover:border-emerald-600 shadow-sm hover:shadow-md hover:scale-[1.01] active:scale-98 transition-all cursor-pointer text-left"
+                  title="Download AMEU SafeSpace App Free (Android, iPhone, Mac, Windows)"
+                >
+                  <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-700 to-[#064E32] text-white text-xs font-black uppercase tracking-wider shadow-sm group-hover:scale-105 transition-transform">
+                    <Smartphone className="w-3.5 h-3.5 text-emerald-200" />
+                    <span>Download App</span>
+                  </span>
+                  <span className="text-xs sm:text-sm font-bold text-slate-800 group-hover:text-emerald-900 transition-colors">
+                    Add to Android, iPhone, Mac &amp; Windows
+                  </span>
+                  <span className="hidden sm:inline-flex px-2 py-0.5 rounded-full bg-emerald-700/15 text-emerald-800 text-[10px] font-black uppercase tracking-wide">
+                    Free
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-emerald-700 group-hover:translate-x-1 transition-transform ml-1" />
+                </button>
+              </div>
+
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
                 Your Digital Safety <span className="text-emerald-700">Matters.</span>
               </h1>
@@ -352,6 +379,12 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
           </div>
         </div>
       </section>
+
+      {/* 4-Page OS Tutorial Guide Modal */}
+      <InstallGuideModal
+        isOpen={showInstallGuide}
+        onClose={() => setShowInstallGuide(false)}
+      />
     </div>
   );
 };

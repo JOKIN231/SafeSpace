@@ -95,6 +95,7 @@ class ReportingService implements IReportingService {
           p_contact_requested: Boolean(payload.contact_requested),
           p_phone_number: payload.phone_number?.trim() || null,
           p_consent_to_contact: Boolean(payload.consent_to_contact),
+          p_evidence_files: payload.evidence_files || [],
         });
 
         if (!error && data && data.reference_code) {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Download, Smartphone, X, ShieldCheck, Zap, WifiOff, ArrowRight, BookOpen, Apple, Laptop, Monitor } from 'lucide-react';
 import { usePWAInstall } from '../hooks/usePWAInstall';
@@ -74,21 +75,30 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ currentTab }) 
     setShowGuide(false);
   };
 
+  if (typeof document === 'undefined') return null;
+
   return (
     <>
-      <AnimatePresence>
-        {isOpen && !showGuide && (
-          <div className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-3 sm:p-4 bg-slate-950/60 backdrop-blur-xs">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.94, y: 30 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: 'spring', damping: 26, stiffness: 320 }}
-              className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden relative"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="pwa-install-title"
+      {createPortal(
+        <AnimatePresence>
+          {isOpen && !showGuide && (
+            <div
+              className="fixed inset-0 z-[99990] flex items-end sm:items-center justify-center p-3 sm:p-4 bg-slate-950/70 backdrop-blur-xs"
+              onClick={(e) => {
+                if (e.target === e.currentTarget) setIsOpen(false);
+              }}
             >
+              <motion.div
+                initial={{ opacity: 0, scale: 0.94, y: 30 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+                onClick={(e) => e.stopPropagation()}
+                className="w-full max-w-lg bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden relative z-10"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="pwa-install-title"
+              >
               {/* Top decorative gradient header */}
               <div className="bg-gradient-to-r from-[#064E32] via-[#0E5C3C] to-[#138A45] text-white px-6 pt-6 pb-5 relative">
                 <button
@@ -244,7 +254,9 @@ export const PWAInstallModal: React.FC<PWAInstallModalProps> = ({ currentTab }) 
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+      </AnimatePresence>,
+      document.body
+    )}
 
       {/* 4-Page OS Tutorial Guide Modal */}
       <InstallGuideModal

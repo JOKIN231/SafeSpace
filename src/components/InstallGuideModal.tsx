@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import {
   X,
@@ -245,15 +246,23 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({
     }
   };
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-slate-950/70 backdrop-blur-xs overflow-y-auto">
+      <div
+        className="fixed inset-0 z-[99999] flex items-center justify-center p-3 sm:p-5 bg-slate-950/80 backdrop-blur-sm overflow-y-auto"
+        onClick={(e) => {
+          if (e.target === e.currentTarget) onClose();
+        }}
+      >
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 15 }}
           transition={{ type: 'spring', damping: 28, stiffness: 320 }}
-          className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden my-auto"
+          onClick={(e) => e.stopPropagation()}
+          className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-emerald-100 overflow-hidden my-auto relative z-10"
           role="dialog"
           aria-modal="true"
           aria-labelledby="tutorial-guide-title"
@@ -423,6 +432,7 @@ export const InstallGuideModal: React.FC<InstallGuideModalProps> = ({
           </div>
         </motion.div>
       </div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 };

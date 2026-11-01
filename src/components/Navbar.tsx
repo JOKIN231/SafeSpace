@@ -112,6 +112,12 @@ export const Navbar: React.FC<NavbarProps> = ({ currentTab, onNavigate }) => {
               </button>
             );
           })}
+
+          {/* Mobile Drawer Install App Action */}
+          <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-600">Free SafeSpace App</span>
+            <PWAInstallButton />
+          </div>
         </div>
       )}
     </header>
