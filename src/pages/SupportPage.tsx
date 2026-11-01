@@ -603,7 +603,7 @@ export const SupportPage: React.FC<SupportPageProps> = ({ onNavigate }) => {
       </div>
 
       {/* Floating Emergency Contacts Trigger Pill (Visible on page) */}
-      <div className="fixed bottom-6 right-6 z-30">
+      <div className="fixed bottom-22 sm:bottom-24 right-6 z-30">
         <button
           onClick={() => setIsDrawerOpen(true)}
           className="inline-flex items-center gap-2.5 px-4 py-3 rounded-full bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs sm:text-sm shadow-2xl shadow-rose-900/30 ring-2 ring-white/60 active:scale-95 transition-all cursor-pointer group"

@@ -12,6 +12,7 @@ import { AboutPage } from './pages/AboutPage';
 import { PrivacyPage } from './pages/PrivacyPage';
 import { InternalAccessPage } from './pages/InternalAccessPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { ChatWidget } from './components/ChatWidget';
 
 function AppContent() {
   const { isAuthenticated, signOut } = useAuth();
@@ -106,6 +107,7 @@ function AppContent() {
       </main>
 
       <Footer onNavigate={navigateTo} />
+      <ChatWidget onNavigate={navigateTo} />
     </div>
   );
 }
